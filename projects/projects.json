@@ -1,0 +1,25 @@
+{
+  "projects": [
+    {
+      "id": "pluto",
+      "file": "pluto.json"
+    },
+    {
+      "id": "chess-ai",
+      "file": "chess-ai.json"
+    },
+    {
+      "id": "ride-vide",
+      "file": "ride-vide.json"
+    },
+    {
+      "id": "parkinson-free",
+      "file": "parkinson-free.json"
+    },
+    {
+      "id": "secrets",
+      "file": "secrets.json"
+    }
+  ]
+}
+

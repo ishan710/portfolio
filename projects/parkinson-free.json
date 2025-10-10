@@ -1,0 +1,9 @@
+{
+  "id": "parkinson-free",
+  "title": "Parkinson-free",
+  "description": "Gesture recognition software for at-home Parkinson's Disease therapy using computer vision",
+  "year": "2018",
+  "tags": ["Python", "OpenCV", "Computer Vision", "Healthcare", "TKinter"],
+  "details": "// Parkinson-free - Democratizing Therapy\n\n# Parkinson-free: Accessible Physical Therapy\n\nGesture recognition software that brings Parkinson's Disease therapy to patients' homes using just a webcam.\n\n"
+}
+

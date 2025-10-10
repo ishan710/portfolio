@@ -1,154 +1,394 @@
 // ================================================
-// APPLE TERMINAL-INSPIRED ASCII PORTFOLIO - JS
+// INTERACTIVE TERMINAL PORTFOLIO - JavaScript
+// Simulates terminal commands with typing effect
 // ================================================
 
-// === TERMINAL TYPING ANIMATION ===
-// Simulates terminal typing effect
-(function initTypingAnimation() {
-    const typedTextElement = document.getElementById('typed-text');
-    
-    const textLines = [
-        'creating elegant digital experiences...',
-        'designing with precision and clarity...',
-        'building with modern web technologies...',
-        'hello, I\'m a creative developer.'
-    ];
-    
-    let lineIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingSpeed = 80;
-    
-    function type() {
-        const currentLine = textLines[lineIndex];
+class TerminalPortfolio {
+    constructor() {
+        this.terminalOutput = document.getElementById('terminal-output');
+        this.navButtons = document.querySelectorAll('.nav-btn');
+        this.isTyping = false;
+        this.tabs = new Map();
+        this.activeTabId = 'main';
+        this.tabCounter = 0;
         
-        if (isDeleting) {
-            // Delete character
-            typedTextElement.textContent = currentLine.substring(0, charIndex - 1);
-            charIndex--;
-            typingSpeed = 40;
-        } else {
-            // Type character
-            typedTextElement.textContent = currentLine.substring(0, charIndex + 1);
-            charIndex++;
-            typingSpeed = 80;
-        }
+        // Command mappings
+        this.commands = {
+            'home': {
+                command: 'cat ~/welcome.txt',
+                content: 'home-content'
+            },
+            'about': {
+                command: 'cat ~/about.json',
+                content: 'about-content'
+            },
+            'projects': {
+                command: 'ls -la ~/projects/',
+                content: 'projects-content'
+            },
+            'contact': {
+                command: 'cat ~/contact.txt',
+                content: 'contact-content'
+            },
+            'clear': {
+                command: 'clear',
+                action: 'clear'
+            },
+            'help': {
+                command: 'help',
+                action: 'help'
+            }
+        };
         
-        // Check if line is complete
-        if (!isDeleting && charIndex === currentLine.length) {
-            // Pause before deleting
-            typingSpeed = 2000;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            // Move to next line
-            isDeleting = false;
-            lineIndex = (lineIndex + 1) % textLines.length;
-            typingSpeed = 500;
-        }
+        // Project data (will be loaded from JSON files)
+        this.projectData = {};
         
-        setTimeout(type, typingSpeed);
+        this.init();
+        this.loadProjects();
     }
     
-    // Start typing after short delay
-    setTimeout(type, 1000);
-})();
-
-// === SMOOTH SCROLL FOR NAVIGATION ===
-// Smooth scroll to sections with offset for header
-(function initSmoothScroll() {
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                const offset = 100; // Offset for header
-                const elementPosition = targetSection.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - offset;
-                
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-})();
-
-// === SCROLL REVEAL ANIMATION ===
-// Fade in sections as they enter viewport
-(function initScrollReveal() {
-    const sections = document.querySelectorAll('.fade-in-section');
-    
-    const observerOptions = {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-})();
-
-// === PROJECT CARD INTERACTIONS ===
-// Add subtle parallax effect to project cards
-(function initProjectCards() {
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    projectCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transition = 'all 0.3s ease';
+    init() {
+        // Add click listeners to nav buttons
+        this.navButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const command = btn.dataset.command;
+                this.executeCommand(command);
+                this.setActiveButton(btn);
+            });
         });
         
-        card.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            
-            this.style.transform = `
-                translateY(-4px)
-                perspective(1000px)
-                rotateX(${rotateX}deg)
-                rotateY(${rotateY}deg)
-            `;
+        // Add click listeners to project items (using event delegation)
+        document.addEventListener('click', (e) => {
+            const projectItem = e.target.closest('.project-item[data-project]');
+            if (projectItem) {
+                const projectId = projectItem.dataset.project;
+                this.openProjectTab(projectId, projectItem);
+            }
         });
         
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = '';
+        // Add click listeners to tabs (using event delegation)
+        document.addEventListener('click', (e) => {
+            // Handle tab click
+            const tab = e.target.closest('.tab:not(.tab-close)');
+            if (tab && !e.target.closest('.tab-close')) {
+                const tabId = tab.dataset.tabId;
+                this.switchTab(tabId);
+            }
+            
+            // Handle tab close
+            if (e.target.closest('.tab-close')) {
+                e.stopPropagation();
+                const tab = e.target.closest('.tab');
+                const tabId = tab.dataset.tabId;
+                this.closeTab(tabId);
+            }
         });
-    });
-})();
+    }
+    
+    setActiveButton(activeBtn) {
+        this.navButtons.forEach(btn => btn.classList.remove('active'));
+        activeBtn.classList.add('active');
+    }
+    
+    async executeCommand(commandName) {
+        // Prevent multiple commands at once
+        if (this.isTyping) return;
+        
+        const commandConfig = this.commands[commandName];
+        
+        if (!commandConfig) {
+            this.showError(commandName);
+            return;
+        }
+        
+        // Handle special actions
+        if (commandConfig.action === 'clear') {
+            this.clearTerminal();
+            return;
+        }
+        
+        if (commandConfig.action === 'help') {
+            this.showHelp();
+            return;
+        }
+        
+        // Fade out and clear previous content (except initial block)
+        await this.fadeOutAndClear();
+        
+        // Create command block
+        const commandBlock = document.createElement('div');
+        commandBlock.className = 'command-block';
+        commandBlock.style.opacity = '0';
+        
+        // Create command line
+        const commandLine = document.createElement('div');
+        commandLine.className = 'command-line';
+        commandLine.innerHTML = `<span class="prompt">ishan@portfolio ~ %</span><span class="typed-command"></span>`;
+        
+        commandBlock.appendChild(commandLine);
+        this.terminalOutput.appendChild(commandBlock);
+        
+        // Fade in the new command block
+        await this.sleep(50);
+        commandBlock.style.transition = 'opacity 0.3s ease';
+        commandBlock.style.opacity = '1';
+        
+        // Type the command
+        await this.typeCommand(commandLine.querySelector('.typed-command'), commandConfig.command);
+        
+        // Show content
+        if (commandConfig.content) {
+            const content = document.getElementById(commandConfig.content).cloneNode(true);
+            content.style.display = 'block';
+            content.className = 'command-output';
+            commandBlock.appendChild(content);
+        }
+    }
+    
+    async typeCommand(element, text) {
+        this.isTyping = true;
+        const typingSpeed = 40; // milliseconds per character
+        
+        for (let i = 0; i < text.length; i++) {
+            element.textContent += text[i];
+            await this.sleep(typingSpeed);
+        }
+        
+        await this.sleep(200); // Pause after typing
+        this.isTyping = false;
+    }
+    
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    scrollToBottom() {
+        this.terminalOutput.scrollTop = this.terminalOutput.scrollHeight;
+    }
+    
+    async fadeOutAndClear() {
+        // Get all command blocks except the initial one
+        const blocks = Array.from(this.terminalOutput.querySelectorAll('.command-block:not(.initial-block)'));
+        
+        if (blocks.length > 0) {
+            // Fade out existing blocks
+            blocks.forEach(block => {
+                block.style.transition = 'opacity 0.2s ease';
+                block.style.opacity = '0';
+            });
+            
+            // Wait for fade out
+            await this.sleep(200);
+            
+            // Remove the blocks
+            blocks.forEach(block => block.remove());
+        }
+    }
+    
+    clearTerminal() {
+        // Keep only the initial welcome block
+        const initialBlock = this.terminalOutput.querySelector('.initial-block');
+        this.terminalOutput.innerHTML = '';
+        if (initialBlock) {
+            this.terminalOutput.appendChild(initialBlock.cloneNode(true));
+        }
+    }
+    
+    showError(command) {
+        const commandBlock = document.createElement('div');
+        commandBlock.className = 'command-block';
+        
+        const commandLine = document.createElement('div');
+        commandLine.className = 'command-line';
+        commandLine.innerHTML = `<span class="prompt">ishan@portfolio ~ %</span><span class="typed-command">${command}</span>`;
+        
+        const errorOutput = document.createElement('div');
+        errorOutput.className = 'error-output';
+        errorOutput.textContent = `zsh: command not found: ${command}`;
+        
+        const helpText = document.createElement('div');
+        helpText.className = 'command-output';
+        helpText.innerHTML = `<p>Try one of these commands: <span class="cmd-hint">home</span>, <span class="cmd-hint">about</span>, <span class="cmd-hint">projects</span>, <span class="cmd-hint">contact</span>, <span class="cmd-hint">help</span>, <span class="cmd-hint">clear</span></p>`;
+        
+        commandBlock.appendChild(commandLine);
+        commandBlock.appendChild(errorOutput);
+        commandBlock.appendChild(helpText);
+        
+        this.terminalOutput.appendChild(commandBlock);
+    }
+    
+    showHelp() {
+        const commandBlock = document.createElement('div');
+        commandBlock.className = 'command-block';
+        
+        const commandLine = document.createElement('div');
+        commandLine.className = 'command-line';
+        commandLine.innerHTML = `<span class="prompt">ishan@portfolio ~ %</span><span class="typed-command">help</span>`;
+        
+        const helpOutput = document.createElement('div');
+        helpOutput.className = 'command-output';
+        helpOutput.innerHTML = `
+            <p>Available commands:</p>
+            <ul class="command-list">
+                <li><span class="cmd-name">home</span> - Return to home screen</li>
+                <li><span class="cmd-name">about</span> - Learn more about me</li>
+                <li><span class="cmd-name">projects</span> - View my projects</li>
+                <li><span class="cmd-name">contact</span> - Get my contact information</li>
+                <li><span class="cmd-name">clear</span> - Clear the terminal</li>
+                <li><span class="cmd-name">help</span> - Show this help message</li>
+            </ul>
+            <br>
+            <p>Tip: You can also click the navigation buttons above!</p>
+        `;
+        
+        commandBlock.appendChild(commandLine);
+        commandBlock.appendChild(helpOutput);
+        
+        this.terminalOutput.appendChild(commandBlock);
+    }
+    
+    // === LOAD PROJECTS FROM JSON FILES ===
+    
+    async loadProjects() {
+        try {
+            // Load individual project files
+            const projectIds = ['pluto', 'secrets', 'parkinson-free', 'chess-ai'];
+            
+            for (const id of projectIds) {
+                const response = await fetch(`projects/${id}.json`);
+                if (response.ok) {
+                    const data = await response.json();
+                    this.projectData[id] = data;
+                }
+            }
+        } catch (error) {
+            console.error('Error loading projects:', error);
+        }
+    }
+    
+    // === TAB MANAGEMENT ===
+    
+    async openProjectTab(projectId, projectElement) {
+        const project = this.projectData[projectId];
+        if (!project) return;
+        
+        // Check if tab already exists
+        const existingTabId = Array.from(this.tabs.keys()).find(id => 
+            this.tabs.get(id).projectId === projectId
+        );
+        
+        if (existingTabId) {
+            this.switchTab(existingTabId);
+            return;
+        }
+        
+        // Create new tab
+        this.tabCounter++;
+        const tabId = `project-${this.tabCounter}`;
+        
+        // Create tab element
+        const tab = document.createElement('div');
+        tab.className = 'tab';
+        tab.dataset.tabId = tabId;
+        tab.innerHTML = `
+            <span class="tab-title">${project.title}</span>
+            <span class="tab-close">×</span>
+        `;
+        
+        document.getElementById('tabs-container').appendChild(tab);
+        
+        // Create content element
+        const contentWrapper = document.querySelector('.terminal-content-wrapper');
+        const content = document.createElement('div');
+        content.className = 'terminal-content';
+        content.dataset.contentId = tabId;
+        
+        // Build project content
+        content.innerHTML = `
+            <div class="terminal-output-area" id="output-${tabId}">
+                <div class="command-block">
+                    <div class="command-line">
+                        <span class="prompt">ishan@portfolio ~ %</span>
+                        <span class="typed-command">cat ~/projects/${projectId}/README.md</span>
+                    </div>
+                    <div class="command-output">
+                        <div class="content-section">
+                            <h3>// ${project.title}</h3>
+                            <p>${project.description}</p>
+                            <br>
+                            <pre class="code-block">${project.details}</pre>
+                            <br>
+                            <div class="project-tags">
+                                ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        contentWrapper.appendChild(content);
+        
+        // Store tab reference
+        this.tabs.set(tabId, {
+            projectId,
+            element: tab,
+            content: content
+        });
+        
+        // Switch to new tab
+        this.switchTab(tabId);
+    }
+    
+    switchTab(tabId) {
+        // Update active tab
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tabId === tabId);
+        });
+        
+        // Update active content
+        document.querySelectorAll('.terminal-content').forEach(content => {
+            content.classList.toggle('active', content.dataset.contentId === tabId);
+        });
+        
+        this.activeTabId = tabId;
+        
+        // Update terminal output reference
+        const activeContent = document.querySelector(`.terminal-content[data-content-id="${tabId}"]`);
+        if (activeContent) {
+            this.terminalOutput = activeContent.querySelector('.terminal-output-area') || 
+                                  document.getElementById('terminal-output');
+        }
+    }
+    
+    closeTab(tabId) {
+        // Don't close the main tab
+        if (tabId === 'main') return;
+        
+        const tabData = this.tabs.get(tabId);
+        if (!tabData) return;
+        
+        // Remove tab and content
+        tabData.element.remove();
+        tabData.content.remove();
+        this.tabs.delete(tabId);
+        
+        // Switch to main tab if we closed the active tab
+        if (this.activeTabId === tabId) {
+            this.switchTab('main');
+        }
+    }
+}
 
 // === WINDOW CONTROLS INTERACTION ===
-// Add interaction to macOS window control buttons
-(function initWindowControls() {
+function initWindowControls() {
     const controlRed = document.querySelector('.control-red');
     const controlYellow = document.querySelector('.control-yellow');
     const controlGreen = document.querySelector('.control-green');
     const terminalWindow = document.querySelector('.terminal-window');
     
-    // Close button - fade out effect
-    controlRed.addEventListener('click', function() {
+    // Close button - fade effect
+    controlRed.addEventListener('click', () => {
         terminalWindow.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         terminalWindow.style.opacity = '0';
         terminalWindow.style.transform = 'scale(0.95)';
@@ -159,8 +399,8 @@
         }, 300);
     });
     
-    // Minimize button - scale down effect
-    controlYellow.addEventListener('click', function() {
+    // Minimize button - scale down
+    controlYellow.addEventListener('click', () => {
         terminalWindow.style.transition = 'transform 0.3s ease';
         terminalWindow.style.transform = 'scale(0.9)';
         
@@ -169,74 +409,45 @@
         }, 300);
     });
     
-    // Maximize button - toggle fullscreen feel
+    // Maximize button - toggle fullscreen
     let isMaximized = false;
-    controlGreen.addEventListener('click', function() {
+    controlGreen.addEventListener('click', () => {
         if (!isMaximized) {
             terminalWindow.style.transition = 'all 0.3s ease';
             terminalWindow.style.maxWidth = '100%';
             terminalWindow.style.margin = '0';
             terminalWindow.style.borderRadius = '0';
+            terminalWindow.style.height = '100vh';
             isMaximized = true;
         } else {
-            terminalWindow.style.maxWidth = '1400px';
+            terminalWindow.style.maxWidth = '1200px';
             terminalWindow.style.margin = '2rem auto';
             terminalWindow.style.borderRadius = 'var(--radius-window)';
+            terminalWindow.style.height = '';
             isMaximized = false;
         }
     });
-})();
-
-// === KEYBOARD SHORTCUTS ===
-// Add keyboard navigation (optional enhancement)
-(function initKeyboardShortcuts() {
-    document.addEventListener('keydown', function(e) {
-        // CMD/CTRL + K to focus on navigation
-        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-            e.preventDefault();
-            const firstNavLink = document.querySelector('.nav-link');
-            if (firstNavLink) firstNavLink.focus();
-        }
-        
-        // ESC to scroll to top
-        if (e.key === 'Escape') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    });
-})();
-
-// === PERFORMANCE OPTIMIZATION ===
-// Throttle function for scroll events
-function throttle(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
 }
 
-// === DECORATIVE ASCII ANIMATION ===
-// Subtle animation for floating ASCII elements
-(function initAsciiAnimation() {
-    const decoItems = document.querySelectorAll('.deco-item');
-    
-    decoItems.forEach((item, index) => {
-        // Random rotation on scroll
-        window.addEventListener('scroll', throttle(() => {
-            const scrolled = window.pageYOffset;
-            const rotation = (scrolled * (0.05 + index * 0.01)) % 360;
-            item.style.transform = `translateY(${Math.sin(rotation) * 10}px) rotate(${rotation}deg)`;
-        }, 50));
+// === KEYBOARD SHORTCUTS ===
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // CMD/CTRL + K to clear terminal
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            terminal.clearTerminal();
+        }
+        
+        // CMD/CTRL + L to also clear terminal
+        if ((e.metaKey || e.ctrlKey) && e.key === 'l') {
+            e.preventDefault();
+            terminal.clearTerminal();
+        }
     });
-})();
+}
 
 // === CONSOLE EASTER EGG ===
-// Terminal-style console messages
-(function initConsoleMessages() {
+function initConsoleMessages() {
     const styles = {
         title: 'font-family: monospace; font-size: 16px; font-weight: bold; color: #111;',
         success: 'font-family: monospace; font-size: 12px; color: #27c93f;',
@@ -244,72 +455,37 @@ function throttle(func, wait) {
         ascii: 'font-family: monospace; font-size: 10px; color: #999; line-height: 1.2;'
     };
     
-    console.log('%c$ init portfolio_system', styles.title);
-    console.log('%c✓ All modules loaded successfully', styles.success);
-    console.log('%c→ System ready', styles.info);
+    console.log('%c$ init terminal_portfolio', styles.title);
+    console.log('%c✓ Interactive terminal system loaded', styles.success);
+    console.log('%c→ Type commands or click navigation', styles.info);
     console.log('%c' + 
         '\n╔════════════════════════════╗' +
-        '\n║  ENOSTA // ASCII DESIGN   ║' +
+        '\n║  ISHAN MALHOTRA PORTFOLIO ║' +
         '\n╚════════════════════════════╝\n', 
         styles.ascii
     );
-    console.log('%cTry clicking the colored buttons in the window header! 🎨', styles.info);
-})();
+    console.log('%cKeyboard shortcuts:', styles.info);
+    console.log('%c  CMD/CTRL + K - Clear terminal', styles.info);
+    console.log('%c  CMD/CTRL + L - Clear terminal', styles.info);
+}
 
-// === ACTIVE SECTION HIGHLIGHTING ===
-// Highlight current section in navigation
-(function initActiveSection() {
-    const sections = document.querySelectorAll('.section');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    const observerOptions = {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -50% 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const currentId = entry.target.getAttribute('id');
-                
-                navLinks.forEach(link => {
-                    link.style.color = '';
-                    link.style.fontWeight = '';
-                    
-                    if (link.getAttribute('href') === `#${currentId}`) {
-                        link.style.color = 'var(--color-text)';
-                        link.style.fontWeight = '600';
-                    }
-                });
-            }
-        });
-    }, observerOptions);
-    
-    sections.forEach(section => {
-        if (section.id) {
-            observer.observe(section);
-        }
-    });
-})();
+// === INITIALIZE APPLICATION ===
+let terminal;
 
-// === LINK HOVER SOUND EFFECT (Optional) ===
-// Uncomment to add subtle click feedback
-/*
-(function initLinkFeedback() {
-    const links = document.querySelectorAll('a, button');
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize terminal
+    terminal = new TerminalPortfolio();
     
-    links.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            // You can add a subtle audio feedback here
-            // const audio = new Audio('click.mp3');
-            // audio.volume = 0.1;
-            // audio.play();
-        });
-    });
-})();
-*/
-
-// === INITIALIZE COMPLETE ===
-console.log('%c$ portfolio_system --status\n✓ All animations initialized\n✓ Scroll observers active\n✓ Interactive elements ready', 
-    'font-family: monospace; font-size: 11px; color: #27c93f;'
-);
+    // Initialize window controls
+    initWindowControls();
+    
+    // Initialize keyboard shortcuts
+    initKeyboardShortcuts();
+    
+    // Show console messages
+    initConsoleMessages();
+    
+    console.log('%c✓ Terminal ready. Type "help" for available commands.', 
+        'font-family: monospace; font-size: 11px; color: #27c93f;'
+    );
+});

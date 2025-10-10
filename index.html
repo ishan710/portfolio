@@ -19,273 +19,255 @@
                 <span class="control-btn control-yellow"></span>
                 <span class="control-btn control-green"></span>
             </div>
-            <div class="window-title">ishan@portfolio ~ % </div>
+            <div class="tabs-container" id="tabs-container">
+                <div class="tab active" data-tab-id="main">
+                    <span class="tab-title">ishan@portfolio ~ %</span>
+                </div>
+            </div>
         </div>
         
-        <!-- Terminal Content -->
-        <div class="terminal-content">
+        <!-- Terminal Content Wrapper -->
+        <div class="terminal-content-wrapper">
             
-            <!-- Header / Navigation -->
+            <!-- Main Tab Content -->
+            <div class="terminal-content active" data-content-id="main">
+                
+                <!-- Header / Navigation -->
             <header class="header">
                 <div class="logo">ISHAN MALHOTRA <span class="logo-divider">//</span> PORTFOLIO</div>
                 <nav class="nav">
-                    <a href="#home" class="nav-link">home</a>
-                    <a href="#about" class="nav-link">about</a>
-                    <a href="#projects" class="nav-link">projects</a>
-                    <a href="#contact" class="nav-link">contact</a>
+                    <button class="nav-btn" data-command="home">home</button>
+                    <button class="nav-btn" data-command="about">about</button>
+                    <button class="nav-btn" data-command="projects">projects</button>
+                    <button class="nav-btn" data-command="contact">contact</button>
                 </nav>
             </header>
             
-            <!-- Hero Section -->
-            <section id="home" class="hero-section">
-                <div class="ascii-art">
-                    <pre class="ascii-logo">
+            <!-- Terminal Output Area -->
+            <div class="terminal-output-area" id="terminal-output">
+                
+                <!-- Welcome Screen (Initial) -->
+                <div class="command-block initial-block">
+                    <div class="ascii-art">
+                        <pre class="ascii-logo">
  ██╗███████╗██╗  ██╗ █████╗ ███╗   ██╗
  ██║██╔════╝██║  ██║██╔══██╗████╗  ██║
  ██║███████╗███████║███████║██╔██╗ ██║
  ██║╚════██║██╔══██║██╔══██║██║╚██╗██║
  ██║███████║██║  ██║██║  ██║██║ ╚████║
  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
-                    </pre>
-                </div>
-                
-                <div class="terminal-output">
-                    <div class="output-line">
-                        <span class="prompt">$</span>
-                        <span class="typed-text" id="typed-text"></span>
-                        <span class="cursor-blink">▋</span>
+                        </pre>
+                    </div>
+                    <div class="welcome-text">
+                        <p>Welcome to my portfolio terminal.</p>
+                        <p>Click the navigation above to explore my work.</p>
                     </div>
                 </div>
                 
-                <div class="cta-section">
-                    <a href="#projects" class="btn-primary">→ view projects</a>
-                    <a href="#contact" class="btn-secondary">→ get in touch</a>
-                </div>
-                
-                <!-- Decorative ASCII elements -->
-                <div class="ascii-decoration">
-                    <span class="deco-item">▧</span>
-                    <span class="deco-item">▨</span>
-                    <span class="deco-item">▩</span>
-                </div>
-            </section>
+            </div>
             
-            <!-- About Section -->
-            <section id="about" class="section about-section fade-in-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-prefix">01.</span> about
-                    </h2>
-                    <div class="section-line"></div>
-                </div>
-                
-                <div class="two-column-layout">
-                    <div class="column-left">
-                        <div class="code-block">
-                            <pre class="code-content"><span class="code-comment">// profile.json</span>
-{
-  <span class="code-key">"name"</span>: <span class="code-value">"Ishan Malhotra"</span>,
-  <span class="code-key">"role"</span>: <span class="code-value">"Full Stack Developer"</span>,
-  <span class="code-key">"location"</span>: <span class="code-value">"Remote"</span>,
-  <span class="code-key">"focus"</span>: [
-    <span class="code-value">"Web Development"</span>,
-    <span class="code-value">"UI/UX Design"</span>,
-    <span class="code-value">"Modern Tech Stack"</span>
-  ]
+            </div>
+            <!-- End Main Tab Content -->
+            
+        </div>
+        <!-- End Terminal Content Wrapper -->
+    </div>
+
+    <!-- Hidden Content Templates -->
+    <div id="content-templates" style="display: none;">
+        
+        <!-- Home Content -->
+        <div id="home-content">
+            <div class="ascii-art">
+                <pre class="ascii-logo-small">
+ ██╗███████╗██╗  ██╗ █████╗ ███╗   ██╗
+ ██║██╔════╝██║  ██║██╔══██╗████╗  ██║
+ ██║███████╗███████║███████║██╔██╗ ██║
+ ██║╚════██║██╔══██║██╔══██║██║╚██╗██║
+ ██║███████║██║  ██║██║  ██║██║ ╚████║
+ ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
+                </pre>
+            </div>
+            <div class="content-text">
+                <p>Full Stack Developer | UI/UX Enthusiast | Problem Solver</p>
+                <p>Building elegant digital experiences with modern technologies.</p>
+                <br>
+                <p>Available commands:</p>
+                <ul class="command-list">
+                    <li><span class="cmd-name">about</span> - Learn more about me</li>
+                    <li><span class="cmd-name">projects</span> - View my work</li>
+                    <li><span class="cmd-name">contact</span> - Get in touch</li>
+                    <li><span class="cmd-name">clear</span> - Clear terminal</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- About Content -->
+        <div id="about-content">
+            <div class="content-section">
+                <h3>// profile.json</h3>
+                <pre class="code-block">{
+  "name": "Ishan Malhotra",
+  "role": "Full Stack Developer",
+  "location": "Remote",
+  "focus": [
+    "Web Development",
+    "UI/UX Design",
+    "Modern Tech Stack"
+  ],
+  "description": "Passionate about building elegant web applications 
+                 with modern technologies. I love creating beautiful, 
+                 functional digital experiences.",
+  "approach": "Clean code, thoughtful design, and attention to detail."
 }</pre>
-                        </div>
-                    </div>
+            </div>
+            <div class="ascii-decoration">
+                <pre>▤ ▥ ▦ ▧ ▨ ▩</pre>
+            </div>
+        </div>
+        
+        <!-- Projects Content -->
+        <div id="projects-content">
+            <div class="content-section">
+                <h3>// ls ~/projects/</h3>
+                <div class="projects-list">
                     
-                    <div class="column-right">
-                        <p class="text-block">
-                            Hello! I'm Ishan, a full stack developer passionate about building 
-                            elegant web applications with modern technologies. I love creating 
-                            beautiful, functional digital experiences.
-                        </p>
-                        <p class="text-block">
-                            My approach combines clean code, thoughtful design, and attention 
-                            to detail — crafting solutions that are both powerful and intuitive.
-                        </p>
-                        <div class="ascii-pattern-small">
-                            <pre>▤ ▥ ▦ ▧ ▨ ▩</pre>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Projects Section -->
-            <section id="projects" class="section projects-section fade-in-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-prefix">02.</span> projects
-                    </h2>
-                    <div class="section-line"></div>
-                </div>
-                
-                <div class="projects-grid">
-                    <!-- Project 1 -->
-                    <div class="project-card">
+                    <div class="project-item" data-project="pluto">
                         <div class="project-header">
-                            <div class="project-icon">
-                                <pre class="icon-art">╔═══╗
-║ ⌘ ║
-╚═══╝</pre>
-                            </div>
-                            <div class="project-meta">
-                                <h3 class="project-title">Terminal Portfolio</h3>
-                                <span class="project-year">2025</span>
-                            </div>
-                        </div>
-                        <p class="project-description">
-                            A minimalist portfolio inspired by macOS Terminal aesthetics. 
-                            Clean typography meets ASCII art.
-                        </p>
-                        <div class="project-tags">
-                            <span class="tag">HTML/CSS</span>
-                            <span class="tag">JavaScript</span>
-                            <span class="tag">ASCII</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Project 2 -->
-                    <div class="project-card">
-                        <div class="project-header">
-                            <div class="project-icon">
-                                <pre class="icon-art">╔═══╗
+                            <pre class="project-icon">╔═══╗
 ║ ⚡ ║
 ╚═══╝</pre>
-                            </div>
-                            <div class="project-meta">
-                                <h3 class="project-title">Command Interface</h3>
-                                <span class="project-year">2025</span>
+                            <div class="project-info">
+                                <h4>Pluto - IoT for Farmers</h4>
+                                <span class="project-date">2015-2020</span>
                             </div>
                         </div>
-                        <p class="project-description">
-                            Interactive CLI-style web app with real-time command execution 
-                            and elegant output rendering.
-                        </p>
+                        <p class="project-desc">Agri-tech device to remotely control water pumps. Sold 700 units, won national awards, Ashoka Youth Venturer.</p>
+                        <div class="project-links">
+                            <a href="https://www.pluto.click/" target="_blank" class="project-link">→ pluto.click</a>
+                            <a href="https://www.youtube.com/watch?v=KfqOIBB40zQ" target="_blank" class="project-link">→ TEDx Talk</a>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Arduino</span>
+                            <span class="tag">IoT</span>
+                            <span class="tag">Embedded C</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-item" data-project="chess-ai">
+                        <div class="project-header">
+                            <pre class="project-icon">╔═══╗
+║ ♔ ║
+╚═══╝</pre>
+                            <div class="project-info">
+                                <h4>AI Chess App</h4>
+                                <span class="project-date">2024</span>
+                            </div>
+                        </div>
+                        <p class="project-desc">Interactive chess application with AI opponent. Built with React, Next.js, deployed on Vercel.</p>
+                        <div class="project-links">
+                            <a href="https://chess-app-ai.vercel.app/" target="_blank" class="project-link">→ Play Now</a>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Next.js</span>
+                            <span class="tag">AI</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-item" data-project="ride-vide">
+                        <div class="project-header">
+                            <pre class="project-icon">╔═══╗
+║ 🚗 ║
+╚═══╝</pre>
+                            <div class="project-info">
+                                <h4>Ride-Vide</h4>
+                                <span class="project-date">2020-2022</span>
+                            </div>
+                        </div>
+                        <p class="project-desc">Ride-sharing platform for UChicago students to split airport transportation costs. Connected 200+ students.</p>
+                        <div class="project-links">
+                            <a href="https://coda.io/d/Horizontal-Pod-AutoScaling-for-Browserless_dNarCpUpVVv" target="_blank" class="project-link">→ View Documentation</a>
+                        </div>
                         <div class="project-tags">
                             <span class="tag">React</span>
                             <span class="tag">Node.js</span>
-                            <span class="tag">Terminal</span>
+                            <span class="tag">Facebook API</span>
                         </div>
                     </div>
                     
-                    <!-- Project 3 -->
-                    <div class="project-card">
+                    <div class="project-item" data-project="parkinson-free">
                         <div class="project-header">
-                            <div class="project-icon">
-                                <pre class="icon-art">╔═══╗
-║ ◆ ║
+                            <pre class="project-icon">╔═══╗
+║ 🏥 ║
 ╚═══╝</pre>
-                            </div>
-                            <div class="project-meta">
-                                <h3 class="project-title">ASCII Art Generator</h3>
-                                <span class="project-year">2024</span>
+                            <div class="project-info">
+                                <h4>Parkinson-free</h4>
+                                <span class="project-date">2018</span>
                             </div>
                         </div>
-                        <p class="project-description">
-                            Convert images to ASCII art with customizable character sets 
-                            and monochrome output options.
-                        </p>
+                        <p class="project-desc">Gesture recognition software for Parkinson's therapy using OpenCV. Published research paper.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
-                            <span class="tag">PIL</span>
-                            <span class="tag">CLI Tool</span>
+                            <span class="tag">OpenCV</span>
+                            <span class="tag">Computer Vision</span>
                         </div>
                     </div>
                     
-                    <!-- Project 4 -->
-                    <div class="project-card">
+                    <div class="project-item" data-project="secrets">
                         <div class="project-header">
-                            <div class="project-icon">
-                                <pre class="icon-art">╔═══╗
-║ ★ ║
+                            <pre class="project-icon">╔═══╗
+║ 📊 ║
 ╚═══╝</pre>
-                            </div>
-                            <div class="project-meta">
-                                <h3 class="project-title">Monospace UI Kit</h3>
-                                <span class="project-year">2024</span>
+                            <div class="project-info">
+                                <h4>Secrets - Sentiment Analysis</h4>
+                                <span class="project-date">2020</span>
                             </div>
                         </div>
-                        <p class="project-description">
-                            Complete design system built with monospace fonts and terminal-inspired 
-                            components.
-                        </p>
+                        <p class="project-desc">Analyzed sentiment from 1500+ posts on college confession pages using NLP and Google Cloud API.</p>
                         <div class="project-tags">
-                            <span class="tag">Figma</span>
-                            <span class="tag">Design System</span>
-                            <span class="tag">UI Kit</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Contact Section -->
-            <section id="contact" class="section contact-section fade-in-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="title-prefix">03.</span> contact
-                    </h2>
-                    <div class="section-line"></div>
-                </div>
-                
-                <div class="two-column-layout">
-                    <div class="column-left">
-                        <div class="terminal-prompt-block">
-                            <div class="prompt-line">
-                                <span class="prompt">$</span> cat contact.txt
-                            </div>
-                            <div class="output-content">
-                                <p class="contact-text">
-                                    I'm always open to discussing new projects, creative ideas, 
-                                    or opportunities to be part of your vision.
-                                </p>
-                                <p class="contact-text">
-                                    Feel free to reach out through any of the channels below.
-                                </p>
-                            </div>
+                            <span class="tag">Python</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">Google Cloud</span>
                         </div>
                     </div>
                     
-                    <div class="column-right">
-                        <div class="contact-links">
-                            <a href="mailto:ishan@example.com" class="contact-link">
-                                <span class="link-prefix">→</span> ishan@example.com
-                            </a>
-                            <a href="https://github.com/ishanmalhotra" class="contact-link">
-                                <span class="link-prefix">→</span> github.com/ishanmalhotra
-                            </a>
-                            <a href="https://twitter.com/ishanmalhotra" class="contact-link">
-                                <span class="link-prefix">→</span> twitter.com/ishanmalhotra
-                            </a>
-                            <a href="https://linkedin.com/in/ishanmalhotra" class="contact-link">
-                                <span class="link-prefix">→</span> linkedin.com/in/ishanmalhotra
-                            </a>
-                        </div>
-                        
-                        <div class="ascii-art-footer">
-                            <pre>╔════════════╗
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Content -->
+        <div id="contact-content">
+            <div class="content-section">
+                <h3>// cat ~/contact.txt</h3>
+                <div class="contact-info">
+                    <p>I'm always open to discussing new projects, creative ideas, or opportunities.</p>
+                    <p>Feel free to reach out through any of the channels below:</p>
+                    <br>
+                    <div class="contact-links">
+                        <a href="mailto:ishan@example.com" class="contact-link">
+                            → email: ishan@example.com
+                        </a>
+                        <a href="https://github.com/ishanmalhotra" class="contact-link" target="_blank">
+                            → github: github.com/ishanmalhotra
+                        </a>
+                        <a href="https://twitter.com/ishanmalhotra" class="contact-link" target="_blank">
+                            → twitter: twitter.com/ishanmalhotra
+                        </a>
+                        <a href="https://linkedin.com/in/ishanmalhotra" class="contact-link" target="_blank">
+                            → linkedin: linkedin.com/in/ishanmalhotra
+                        </a>
+                    </div>
+                    <br>
+                    <div class="ascii-decoration">
+                        <pre>╔════════════╗
 ║  ◢ ◣ ◤ ◥  ║
 ╚════════════╝</pre>
-                        </div>
                     </div>
                 </div>
-            </section>
-            
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="footer-content">
-                    <p class="footer-text">
-                        <span class="prompt">$</span> designed & built by Ishan Malhotra — © 2025
-                    </p>
-                    <div class="footer-decoration">
-                        <pre>▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬</pre>
-                    </div>
-                </div>
-            </footer>
-            
+            </div>
         </div>
+        
     </div>
 
     <script src="script.js"></script>

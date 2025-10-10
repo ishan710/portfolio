@@ -1,0 +1,9 @@
+{
+  "id": "pluto",
+  "title": "Pluto - IoT Device for Farmers",
+  "description": "Low-cost Agri-tech device to remotely control water pumps, helping farmers manage irrigation",
+  "year": "2015-2020",
+  "tags": ["Arduino", "IoT", "Embedded C", "Hardware"],
+  "details": "// Pluto.click - Founder & CEO\n\n# Pluto: Smart Irrigation Control\n\nA revolutionary IoT device that enables farmers to remotely control water pumps from anywhere using just a phone call.\n\n## The Problem\nFarmers in rural India faced irregular power supply and had to physically be present to switch water pumps on/off, often in the middle of the night.\n\n## The Solution\nPluto allows farmers to:\n- Control submersible/water pumps remotely via phone call\n- Get notifications when power is restored\n- Manage irrigation from any corner of the world\n- Save time and physical labor\n\n## Technical Implementation\n- Prototyped using Arduino microcontrollers\n- Programmed in Embedded C\n- Handles current up to 25 amp\n- Uses GSM module for phone connectivity\n- Patent filed and granted\n\n## Impact\n- Sold 700+ units across 5 Indian states\n- Impacted 500+ farmers directly\n- Won ASSOCHAM Water Management Excellence Award 2018\n- Selected as Ashoka Youth Venturer (April 2018)\n- Featured on Doordarshan and Apna Radio\n\n## Recognition\n- Ashoka Youth Venturer (Top 16 young changemakers in India)\n- ASSOCHAM Best Innovative Water Technology in Agriculture\n- CYBERCON 2018 Technology Excellence Award\n- Award presented by Union Minister Nitin Gadkari\n\n## Links\n- Website: https://www.pluto.click/\n- TEDx Talk: https://www.youtube.com/watch?v=KfqOIBB40zQ\n- Status: Successfully exited after 5 years"
+}
+

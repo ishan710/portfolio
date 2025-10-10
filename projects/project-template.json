@@ -1,0 +1,9 @@
+{
+  "id": "your-project-id",
+  "title": "Your Project Title",
+  "description": "A brief one-line description of your project",
+  "year": "2025",
+  "tags": ["Technology1", "Technology2", "Technology3"],
+  "details": "// project-details.md\n\n# Your Project Title\n\nDetailed description of your project goes here.\n\n## Overview\nExplain what your project does and why it exists.\n\n## Features\n- Feature 1\n- Feature 2\n- Feature 3\n\n## Technologies Used\n- Technology 1: Brief explanation\n- Technology 2: Brief explanation\n- Technology 3: Brief explanation\n\n## Challenges\nDescribe any interesting challenges you faced and how you solved them.\n\n## Results\nShare metrics, outcomes, or impact of your project.\n\n## Links\n- Live Demo: https://your-demo-url.com\n- GitHub: https://github.com/yourusername/your-project\n- Blog Post: https://your-blog.com/article\n\n## Code Example\nOptional: Include a code snippet if relevant\n\n```javascript\nconst example = 'This is how it works';\nconsole.log(example);\n```"
+}
+

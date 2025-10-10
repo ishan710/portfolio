@@ -1,0 +1,9 @@
+{
+  "id": "chess-ai",
+  "title": "AI Chess App",
+  "description": "Interactive chess application with AI opponent powered by modern web technologies",
+  "year": "2024",
+  "tags": ["React", "Next.js", "AI", "Game Development", "Vercel"],
+  "details": "// AI Chess App\n\n# AI Chess: Play Against Intelligent Opponent\n\nA modern, responsive chess application where players can challenge an AI opponent with adjustable difficulty levels.\n\n## Live Demo\nhttps://chess-app-ai.vercel.app/"
+}
+
