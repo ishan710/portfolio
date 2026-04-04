@@ -20,7 +20,7 @@
     --color-border: #e0e0e0;
     --color-border-dark: #cccccc;
     --color-accent: #222222;
-    
+
     /* Terminal Window Colors */
     --color-red: #ff5f56;
     --color-yellow: #ffbd2e;
@@ -44,6 +44,18 @@
     /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-base: 0.3s ease;
+}
+
+/* === DARK MODE THEME === */
+[data-theme="dark"] {
+    --color-bg: #1c1c1e;
+    --color-bg-alt: #2c2c2e;
+    --color-text: #f5f5f7;
+    --color-text-secondary: #a1a1a6;
+    --color-text-tertiary: #636366;
+    --color-border: #3a3a3c;
+    --color-border-dark: #48484a;
+    --color-accent: #f5f5f7;
 }
 
 html {
@@ -304,9 +316,6 @@ body {
     font-weight: 600;
 }
 
-.nav-btn[data-command="home"] {
-    display: none;
-}
 
 /* === TERMINAL OUTPUT AREA === */
 .terminal-output-area {
@@ -539,6 +548,10 @@ body {
     transform: translateX(4px);
 }
 
+.project-item:hover .project-icon {
+    border-color: var(--color-border-dark);
+}
+
 .project-header {
     display: flex;
     gap: var(--spacing-xs);
@@ -547,18 +560,22 @@ body {
 }
 
 .project-icon {
-    font-size: 8px;
-    line-height: 1.2;
-    color: var(--color-text);
     flex-shrink: 0;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--color-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
+    color: var(--color-text);
+    transition: border-color var(--transition-base);
+}
+
+.project-icon svg {
+    width: 18px;
+    height: 18px;
 }
 
 .project-info {
@@ -584,9 +601,7 @@ body {
     font-size: 11px;
     line-height: 1.5;
     margin-bottom: var(--spacing-xs);
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-right: var(--spacing-xs);
+    white-space: normal;
 }
 
 .project-desc::-webkit-scrollbar {
@@ -892,6 +907,124 @@ body {
         font-size: 11px;
         line-height: 1.6;
     }
+}
+
+/* === DARK MODE TOGGLE === */
+.dark-mode-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+    line-height: 1;
+}
+
+.dark-mode-toggle:hover {
+    border-color: var(--color-border-dark);
+    color: var(--color-text);
+}
+
+/* === EXPERIENCE TABLE === */
+.exp-table {
+    margin-top: var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.exp-table-header {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1.2fr 0.8fr;
+    padding: 0.4rem var(--spacing-xs);
+    background-color: var(--color-bg-alt);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 10px;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.08em;
+}
+
+.exp-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1.2fr 0.8fr;
+    padding: 0.55rem var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    align-items: center;
+}
+
+.exp-row:last-of-type {
+    border-bottom: none;
+}
+
+.exp-row:hover {
+    background-color: var(--color-bg-alt);
+}
+
+.exp-row.open {
+    background-color: var(--color-bg-alt);
+}
+
+.exp-company {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.exp-role-col {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+}
+
+.exp-period {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+}
+
+.exp-status {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+}
+
+.exp-status.active {
+    color: var(--color-green);
+}
+
+.exp-detail {
+    display: none;
+    padding: 0.6rem var(--spacing-xs) 0.8rem 1.2rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg-alt);
+}
+
+.exp-detail.open {
+    display: block;
+}
+
+.exp-detail ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.exp-detail ul li {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.25rem;
+}
+
+.exp-detail ul li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-text-tertiary);
 }
 
 /* === SELECTION STYLING === */

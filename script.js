@@ -19,8 +19,12 @@ class TerminalPortfolio {
                 content: 'home-content'
             },
             'about': {
-                command: 'cat ~/about.json',
+                command: 'tree ~/ishan',
                 content: 'about-content'
+            },
+            'experience': {
+                command: 'cat ~/experience.log',
+                content: 'experience-content'
             },
             'projects': {
                 command: 'ls -la ~/projects/',
@@ -40,11 +44,150 @@ class TerminalPortfolio {
             }
         };
         
-        // Project data (will be loaded from JSON files)
-        this.projectData = {};
-        
+        // Project data (inlined for file:// compatibility)
+        this.projectData = {
+            'pluto': {
+                id: 'pluto',
+                title: 'Pluto – IoT for Farmers',
+                description: 'Low-cost agri-tech device to remotely control water pumps via phone call.',
+                year: '2015–2020',
+                tags: ['Arduino', 'IoT', 'Embedded C', 'Hardware'],
+                details: `Pluto.click – Founder & CEO
+
+Smart Irrigation Control
+─────────────────────────
+A revolutionary IoT device enabling farmers to remotely control
+water pumps from anywhere using just a phone call.
+
+The Problem
+  Farmers in rural India faced irregular power supply and had to
+  physically be present to switch water pumps on/off — often at 3am.
+
+Solution
+  → Control submersible pumps remotely via phone call
+  → Get notifications when power is restored
+  → Manage irrigation from anywhere in the world
+  → Handles current up to 25 amp via GSM module
+
+Impact
+  → Sold 700+ units across 5 Indian states
+  → Impacted 500+ farmers directly
+  → Won ASSOCHAM Water Management Excellence Award 2018
+  → Ashoka Youth Venturer (Top 16 young changemakers in India)
+  → Award presented by Union Minister Nitin Gadkari
+  → Featured on Doordarshan and Apna Radio
+
+Links
+  → pluto.click
+  → TEDx Talk: youtube.com/watch?v=KfqOIBB40zQ`
+            },
+            'chess-ai': {
+                id: 'chess-ai',
+                title: 'AI Chess App',
+                description: 'Interactive chess application with AI opponent. Built with React + Next.js.',
+                year: '2024',
+                tags: ['React', 'Next.js', 'AI', 'Vercel'],
+                details: `AI Chess App – 2024
+
+Play Against an Intelligent Opponent
+──────────────────────────────────────
+A modern, responsive chess app where players can challenge an
+AI opponent with adjustable difficulty levels.
+
+Tech Stack
+  → React + Next.js
+  → Deployed on Vercel
+
+Links
+  → chess-app-ai.vercel.app`
+            },
+            'ride-vide': {
+                id: 'ride-vide',
+                title: 'Ride-Vide',
+                description: 'Ride-sharing platform connecting UChicago students to split airport costs.',
+                year: '2020–2022',
+                tags: ['React', 'Node.js', 'Facebook API', 'Socket.io', 'MongoDB'],
+                details: `Ride-Vide – Jun 2020 to Jun 2022
+
+Smart Ride Sharing for Students
+─────────────────────────────────
+A web platform helping UChicago students connect and share rides
+to/from O'Hare and Midway airports.
+
+Features
+  → Facebook Login + UChicago email verification
+  → Smart matching by flight time (±2 hours) and airport
+  → Automated group chat via Socket.io
+  → Cost splitting calculator
+
+Tech Stack
+  → React · Node.js · Express
+  → Facebook OAuth · Socket.io · MongoDB
+  → Hosted on Heroku
+
+Impact
+  → Connected 200+ students
+  → Saved $10,000+ in transportation costs
+  → Active usage during holiday breaks`
+            },
+            'parkinson-free': {
+                id: 'parkinson-free',
+                title: 'Parkinson-free',
+                description: 'Gesture recognition software for at-home Parkinson\'s therapy using OpenCV.',
+                year: '2018',
+                tags: ['Python', 'OpenCV', 'Computer Vision', 'TKinter', 'Healthcare'],
+                details: `Parkinson-free – Aug 2018 to Dec 2018
+
+Accessible Physical Therapy via Webcam
+────────────────────────────────────────
+Gesture recognition software that brings Parkinson's Disease
+therapy to patients' homes using just a webcam.
+
+Background
+  → Shadowed doctors and physiotherapists to understand therapy
+  → Translated 4 manual therapy techniques into gesture-based software
+
+Tech Stack
+  → Python · OpenCV · TKinter
+  → Haar Cascades for gesture detection
+
+Output
+  → Published a research paper on the approach
+  → Works on any standard webcam
+
+Paper
+  → IJRESM Vol.1 Issue 11, November 2018
+  → ijresm.com/Vol_1_2018/Vol1_Iss11_November18/IJRESM_V1_I11_94.pdf`
+            },
+            'secrets': {
+                id: 'secrets',
+                title: 'Secrets – Sentiment Analysis',
+                description: 'Analyzed student sentiment from 1,500+ college confession posts using NLP.',
+                year: '2020',
+                tags: ['Python', 'BeautifulSoup', 'Selenium', 'Google Cloud NLP'],
+                details: `Secrets – Feb 2020
+
+College Sentiment Analysis
+────────────────────────────
+Analyzed sentiment patterns on anonymous college confession pages
+to understand student mental health trends across the academic year.
+
+Methodology
+  → Scraped 1,500+ posts using BeautifulSoup + Selenium
+  → Sentiment scoring via Google Cloud Natural Language API
+  → Mapped results to academic calendar
+
+Key Findings
+  → 40% drop in positive sentiment during exam weeks
+  → 25% increase in positive posts on weekends
+  → Sentiment improves ~2 weeks before breaks
+
+Impact
+  → Helped identify optimal times for mental health outreach`
+            }
+        };
+
         this.init();
-        this.loadProjects();
     }
     
     init() {
@@ -58,7 +201,9 @@ class TerminalPortfolio {
         });
         
         // Add click listeners to project items (using event delegation)
+        // Ignore clicks on links so they navigate normally
         document.addEventListener('click', (e) => {
+            if (e.target.closest('a')) return;
             const projectItem = e.target.closest('.project-item[data-project]');
             if (projectItem) {
                 const projectId = projectItem.dataset.project;
@@ -232,6 +377,7 @@ class TerminalPortfolio {
             <ul class="command-list">
                 <li><span class="cmd-name">home</span> - Return to home screen</li>
                 <li><span class="cmd-name">about</span> - Learn more about me</li>
+                <li><span class="cmd-name">experience</span> - View work history</li>
                 <li><span class="cmd-name">projects</span> - View my projects</li>
                 <li><span class="cmd-name">contact</span> - Get my contact information</li>
                 <li><span class="cmd-name">clear</span> - Clear the terminal</li>
@@ -245,25 +391,6 @@ class TerminalPortfolio {
         commandBlock.appendChild(helpOutput);
         
         this.terminalOutput.appendChild(commandBlock);
-    }
-    
-    // === LOAD PROJECTS FROM JSON FILES ===
-    
-    async loadProjects() {
-        try {
-            // Load individual project files
-            const projectIds = ['pluto', 'secrets', 'parkinson-free', 'chess-ai'];
-            
-            for (const id of projectIds) {
-                const response = await fetch(`projects/${id}.json`);
-                if (response.ok) {
-                    const data = await response.json();
-                    this.projectData[id] = data;
-                }
-            }
-        } catch (error) {
-            console.error('Error loading projects:', error);
-        }
     }
     
     // === TAB MANAGEMENT ===
@@ -305,6 +432,16 @@ class TerminalPortfolio {
         
         // Build project content
         content.innerHTML = `
+            <header class="header">
+                <div class="logo">ISHAN MALHOTRA <span class="logo-divider">//</span> PORTFOLIO</div>
+                <nav class="nav">
+                    <button class="nav-btn" data-command="about">about</button>
+                    <button class="nav-btn" data-command="projects">projects</button>
+                    <button class="nav-btn" data-command="experience">work</button>
+                    <button class="nav-btn" data-command="contact">contacts</button>
+                    <button class="dark-mode-toggle" title="Toggle dark mode">${document.documentElement.getAttribute('data-theme') === 'dark' ? '○' : '◐'}</button>
+                </nav>
+            </header>
             <div class="terminal-output-area" id="output-${tabId}">
                 <div class="command-block">
                     <div class="command-line">
@@ -328,14 +465,32 @@ class TerminalPortfolio {
         `;
         
         contentWrapper.appendChild(content);
-        
+
+        // Wire up nav buttons in this tab — clicking navigates main tab
+        content.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.switchTab('main');
+                this.executeCommand(btn.dataset.command);
+                this.setActiveButton(document.querySelector(`.terminal-content[data-content-id="main"] .nav-btn[data-command="${btn.dataset.command}"]`) || btn);
+            });
+        });
+
+        // Wire up dark mode toggle in this tab
+        const tabToggle = content.querySelector('.dark-mode-toggle');
+        if (tabToggle) {
+            tabToggle.addEventListener('click', () => {
+                document.getElementById('dark-mode-toggle').click();
+                tabToggle.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '○' : '◐';
+            });
+        }
+
         // Store tab reference
         this.tabs.set(tabId, {
             projectId,
             element: tab,
             content: content
         });
-        
+
         // Switch to new tab
         this.switchTab(tabId);
     }
@@ -469,6 +624,52 @@ function initConsoleMessages() {
     console.log('%c  CMD/CTRL + L - Clear terminal', styles.info);
 }
 
+// === EXPERIENCE TABLE EXPAND/COLLAPSE ===
+function initExperienceTable() {
+    document.addEventListener('click', (e) => {
+        const row = e.target.closest('.exp-row');
+        if (!row) return;
+        const id = row.dataset.exp;
+        const detail = document.getElementById(`detail-${id}`);
+        if (!detail) return;
+        const isOpen = detail.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.exp-detail.open').forEach(d => d.classList.remove('open'));
+        document.querySelectorAll('.exp-row.open').forEach(r => r.classList.remove('open'));
+        // Toggle clicked
+        if (!isOpen) {
+            detail.classList.add('open');
+            row.classList.add('open');
+        }
+    });
+}
+
+// === DARK MODE TOGGLE ===
+function initDarkMode() {
+    const toggle = document.getElementById('dark-mode-toggle');
+    if (!toggle) return;
+
+    // Restore saved preference
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        toggle.textContent = '○';
+    }
+
+    toggle.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.documentElement.removeAttribute('data-theme');
+            toggle.textContent = '◐';
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            toggle.textContent = '○';
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+}
+
 // === INITIALIZE APPLICATION ===
 let terminal;
 
@@ -484,8 +685,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Show console messages
     initConsoleMessages();
-    
-    console.log('%c✓ Terminal ready. Type "help" for available commands.', 
+
+    // Initialize experience table
+    initExperienceTable();
+
+    // Initialize dark mode toggle
+    initDarkMode();
+
+    console.log('%c✓ Terminal ready. Type "help" for available commands.',
         'font-family: monospace; font-size: 11px; color: #27c93f;'
     );
 });

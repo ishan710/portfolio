@@ -36,10 +36,11 @@
             <header class="header">
                 <div class="logo">ISHAN MALHOTRA <span class="logo-divider">//</span> PORTFOLIO</div>
                 <nav class="nav">
-                    <button class="nav-btn" data-command="home">home</button>
                     <button class="nav-btn" data-command="about">about</button>
                     <button class="nav-btn" data-command="projects">projects</button>
-                    <button class="nav-btn" data-command="contact">contact</button>
+                    <button class="nav-btn" data-command="experience">work</button>
+                    <button class="nav-btn" data-command="contact">contacts</button>
+                    <button class="dark-mode-toggle" id="dark-mode-toggle" title="Toggle dark mode">◐</button>
                 </nav>
             </header>
             
@@ -60,7 +61,6 @@
                     </div>
                     <div class="welcome-text">
                         <p>Welcome to my portfolio terminal.</p>
-                        <p>Click the navigation above to explore my work.</p>
                     </div>
                 </div>
                 
@@ -89,12 +89,13 @@
                 </pre>
             </div>
             <div class="content-text">
-                <p>Full Stack Developer | UI/UX Enthusiast | Problem Solver</p>
-                <p>Building elegant digital experiences with modern technologies.</p>
+                <p>Founding Engineer @ WithCoverage · prev. Palantir Technologies</p>
+                <p>B.S. Computer Science, University of Chicago · GPA 3.8/4.0</p>
                 <br>
                 <p>Available commands:</p>
                 <ul class="command-list">
                     <li><span class="cmd-name">about</span> - Learn more about me</li>
+                    <li><span class="cmd-name">experience</span> - Work history</li>
                     <li><span class="cmd-name">projects</span> - View my work</li>
                     <li><span class="cmd-name">contact</span> - Get in touch</li>
                     <li><span class="cmd-name">clear</span> - Clear terminal</li>
@@ -105,27 +106,117 @@
         <!-- About Content -->
         <div id="about-content">
             <div class="content-section">
-                <h3>// profile.json</h3>
-                <pre class="code-block">{
-  "name": "Ishan Malhotra",
-  "role": "Full Stack Developer",
-  "location": "Remote",
-  "focus": [
-    "Web Development",
-    "UI/UX Design",
-    "Modern Tech Stack"
-  ],
-  "description": "Passionate about building elegant web applications 
-                 with modern technologies. I love creating beautiful, 
-                 functional digital experiences.",
-  "approach": "Clean code, thoughtful design, and attention to detail."
-}</pre>
-            </div>
-            <div class="ascii-decoration">
-                <pre>▤ ▥ ▦ ▧ ▨ ▩</pre>
+                <h3>// tree ~/ishan</h3>
+                <pre class="code-block">ishan@portfolio
+├── role ............. Founding Engineer @ WithCoverage
+├── background ....... New Delhi → New York
+│
+├── education
+│   ├── school ....... University of Chicago
+│   └── degree ....... B.S. Computer Science
+│
+└── interests
+    └── Crew  ·  Badminton  ·  Mixing music  ·  Travelling</pre>
             </div>
         </div>
         
+        <!-- Experience Content -->
+        <div id="experience-content">
+            <div class="content-section">
+                <h3>// ps aux | grep ishan</h3>
+                <div class="exp-table">
+                    <div class="exp-table-header">
+                        <span>COMPANY</span>
+                        <span>ROLE</span>
+                        <span>PERIOD</span>
+                        <span>STATUS</span>
+                    </div>
+
+                    <div class="exp-row" data-exp="withcoverage">
+                        <span class="exp-company">WithCoverage</span>
+                        <span class="exp-role-col">Founding Engineer</span>
+                        <span class="exp-period">2026–now</span>
+                        <span class="exp-status active">● active</span>
+                    </div>
+                    <div class="exp-detail" id="detail-withcoverage">
+                        <ul>
+                            <li>Early engineer at an AI-powered risk management platform replacing commission-based insurance brokers with flat-fee + AI analysis</li>
+                            <li>Backed by Sequoia &amp; Khosla Ventures ($42M Series B, Jan 2026); 700+ companies including GoPuff and Eight Sleep</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-row" data-exp="palantir">
+                        <span class="exp-company">Palantir Technologies</span>
+                        <span class="exp-role-col">Fwd Deployed SWE</span>
+                        <span class="exp-period">2023–2026</span>
+                        <span class="exp-status">○ prev</span>
+                    </div>
+                    <div class="exp-detail" id="detail-palantir">
+                        <ul>
+                            <li>Built AI-powered search for automotive manufacturing using LLMs, image embeddings &amp; knowledge graphs — reduced search time by 70%</li>
+                            <li>Developed LLM-based ETL tools automating schema discovery and legacy data migration</li>
+                            <li>Engineered offline-first React + Foundry apps using Service Workers &amp; IndexedDB for car technicians in low-connectivity environments</li>
+                            <li>Scoped AI use cases across automotive and healthcare clients; led end-to-end pilots</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-row" data-exp="coda">
+                        <span class="exp-company">Coda.io → Grammarly</span>
+                        <span class="exp-role-col">Infrastructure Intern</span>
+                        <span class="exp-period">2022</span>
+                        <span class="exp-status">○ prev</span>
+                    </div>
+                    <div class="exp-detail" id="detail-coda">
+                        <ul>
+                            <li>Built a custom Kubernetes HPA to scale Browserless pods on real-time queue length — improved response times by 40% under peak load</li>
+                            <li>Deployed a metrics pipeline using Express.js, Prometheus, and Helm for custom autoscaling metrics</li>
+                            <li>Collaborated with SREs on-call; resolved incidents via Sumologic and Grafana</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-row" data-exp="dori">
+                        <span class="exp-company">Dori Inc</span>
+                        <span class="exp-role-col">Software Dev Intern</span>
+                        <span class="exp-period">2021</span>
+                        <span class="exp-status">○ prev</span>
+                    </div>
+                    <div class="exp-detail" id="detail-dori">
+                        <ul>
+                            <li>Built a Python Flask server loading files from S3 and running inference on image/video data</li>
+                            <li>Integrated with a React computer-vision web app; annotated datasets and benchmarked object detection models using CVAT</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-row" data-exp="deepskies">
+                        <span class="exp-company">DeepSkies Lab</span>
+                        <span class="exp-role-col">Research Assistant</span>
+                        <span class="exp-period">2020</span>
+                        <span class="exp-status">○ prev</span>
+                    </div>
+                    <div class="exp-detail" id="detail-deepskies">
+                        <ul>
+                            <li>Designed a Reinforcement Learning model to automate sky-surveying for a self-driving telescope</li>
+                            <li>Deployed an RL agent to find the equatorial surface of the sky</li>
+                        </ul>
+                    </div>
+
+                    <div class="exp-row" data-exp="pluto">
+                        <span class="exp-company">Pluto.click</span>
+                        <span class="exp-role-col">Founder &amp; CEO</span>
+                        <span class="exp-period">2015–2020</span>
+                        <span class="exp-status">○ prev</span>
+                    </div>
+                    <div class="exp-detail" id="detail-pluto">
+                        <ul>
+                            <li>Prototyped &amp; patented a low-cost agri-tech device to remotely control water pumps via Arduino and embedded C</li>
+                            <li>Sold 700 units across 5 states; won national awards; selected as Ashoka Youth Venturer (April 2018)</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- Projects Content -->
         <div id="projects-content">
             <div class="content-section">
@@ -134,12 +225,16 @@
                     
                     <div class="project-item" data-project="pluto">
                         <div class="project-header">
-                            <pre class="project-icon">╔═══╗
-║ ⚡ ║
-╚═══╝</pre>
+                            <div class="project-icon">
+                                <!-- CPU / chip — IoT -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="7" y="7" width="10" height="10" rx="1"/>
+                                    <path d="M9 7V4M12 7V3M15 7V4M9 17v3M12 17v4M15 17v3M17 9h3M17 12h4M17 15h3M7 9H4M7 12H3M7 15H4"/>
+                                </svg>
+                            </div>
                             <div class="project-info">
-                                <h4>Pluto - IoT for Farmers</h4>
-                                <span class="project-date">2015-2020</span>
+                                <h4>Pluto – IoT for Farmers</h4>
+                                <span class="project-date">2015–2020</span>
                             </div>
                         </div>
                         <p class="project-desc">Agri-tech device to remotely control water pumps. Sold 700 units, won national awards, Ashoka Youth Venturer.</p>
@@ -153,12 +248,18 @@
                             <span class="tag">Embedded C</span>
                         </div>
                     </div>
-                    
+
                     <div class="project-item" data-project="chess-ai">
                         <div class="project-header">
-                            <pre class="project-icon">╔═══╗
-║ ♔ ║
-╚═══╝</pre>
+                            <div class="project-icon">
+                                <!-- Chess knight -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 21h8M12 21v-3M7 18h10"/>
+                                    <path d="M9 3c0 0-1 1-1 4 0 1.5.5 3 1 4L7 15h10l-2-4c.5-1 1-2.5 1-4 0-3-1-4-1-4"/>
+                                    <path d="M9 7c1-1 2-1.5 3-1.5S14 6 15 7"/>
+                                    <circle cx="10" cy="6" r="0.5" fill="currentColor"/>
+                                </svg>
+                            </div>
                             <div class="project-info">
                                 <h4>AI Chess App</h4>
                                 <span class="project-date">2024</span>
@@ -174,53 +275,74 @@
                             <span class="tag">AI</span>
                         </div>
                     </div>
-                    
+
                     <div class="project-item" data-project="ride-vide">
                         <div class="project-header">
-                            <pre class="project-icon">╔═══╗
-║ 🚗 ║
-╚═══╝</pre>
+                            <div class="project-icon">
+                                <!-- Car / ride sharing -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 17H3v-5l2-5h14l2 5v5h-2"/>
+                                    <circle cx="7.5" cy="17" r="1.5"/>
+                                    <circle cx="16.5" cy="17" r="1.5"/>
+                                    <path d="M5 12h14"/>
+                                </svg>
+                            </div>
                             <div class="project-info">
                                 <h4>Ride-Vide</h4>
-                                <span class="project-date">2020-2022</span>
+                                <span class="project-date">2020–2022</span>
                             </div>
                         </div>
                         <p class="project-desc">Ride-sharing platform for UChicago students to split airport transportation costs. Connected 200+ students.</p>
                         <div class="project-links">
-                            <a href="https://coda.io/d/Horizontal-Pod-AutoScaling-for-Browserless_dNarCpUpVVv" target="_blank" class="project-link">→ View Documentation</a>
+                            <a href="https://github.com/ishan710" target="_blank" class="project-link">→ GitHub</a>
                         </div>
                         <div class="project-tags">
                             <span class="tag">React</span>
                             <span class="tag">Node.js</span>
-                            <span class="tag">Facebook API</span>
+                            <span class="tag">Socket.io</span>
                         </div>
                     </div>
-                    
+
                     <div class="project-item" data-project="parkinson-free">
                         <div class="project-header">
-                            <pre class="project-icon">╔═══╗
-║ 🏥 ║
-╚═══╝</pre>
+                            <div class="project-icon">
+                                <!-- Hand / gesture recognition -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/>
+                                    <path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/>
+                                    <path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/>
+                                    <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34L4 19"/>
+                                </svg>
+                            </div>
                             <div class="project-info">
                                 <h4>Parkinson-free</h4>
                                 <span class="project-date">2018</span>
                             </div>
                         </div>
                         <p class="project-desc">Gesture recognition software for Parkinson's therapy using OpenCV. Published research paper.</p>
+                        <div class="project-links">
+                            <a href="https://www.ijresm.com/Vol_1_2018/Vol1_Iss11_November18/IJRESM_V1_I11_94.pdf" target="_blank" class="project-link">→ Research Paper (IJRESM 2018)</a>
+                        </div>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">OpenCV</span>
                             <span class="tag">Computer Vision</span>
                         </div>
                     </div>
-                    
+
                     <div class="project-item" data-project="secrets">
                         <div class="project-header">
-                            <pre class="project-icon">╔═══╗
-║ 📊 ║
-╚═══╝</pre>
+                            <div class="project-icon">
+                                <!-- Bar chart / sentiment analysis -->
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="20" x2="18" y2="10"/>
+                                    <line x1="12" y1="20" x2="12" y2="4"/>
+                                    <line x1="6" y1="20" x2="6" y2="14"/>
+                                    <line x1="2" y1="20" x2="22" y2="20"/>
+                                </svg>
+                            </div>
                             <div class="project-info">
-                                <h4>Secrets - Sentiment Analysis</h4>
+                                <h4>Secrets – Sentiment Analysis</h4>
                                 <span class="project-date">2020</span>
                             </div>
                         </div>
@@ -245,17 +367,17 @@
                     <p>Feel free to reach out through any of the channels below:</p>
                     <br>
                     <div class="contact-links">
-                        <a href="mailto:ishan@example.com" class="contact-link">
-                            → email: ishan@example.com
+                        <a href="mailto:ishan710@gmail.com" class="contact-link">
+                            → email: ishan710@gmail.com
                         </a>
-                        <a href="https://github.com/ishanmalhotra" class="contact-link" target="_blank">
-                            → github: github.com/ishanmalhotra
+                        <a href="tel:7733837518" class="contact-link">
+                            → phone: 773-383-7518
                         </a>
-                        <a href="https://twitter.com/ishanmalhotra" class="contact-link" target="_blank">
-                            → twitter: twitter.com/ishanmalhotra
+                        <a href="https://github.com/ishan710" class="contact-link" target="_blank">
+                            → github: github.com/ishan710
                         </a>
-                        <a href="https://linkedin.com/in/ishanmalhotra" class="contact-link" target="_blank">
-                            → linkedin: linkedin.com/in/ishanmalhotra
+                        <a href="https://www.linkedin.com/in/ishan--malhotra/" class="contact-link" target="_blank">
+                            → linkedin: linkedin.com/in/ishan--malhotra
                         </a>
                     </div>
                     <br>
